@@ -1,6 +1,6 @@
 from utils import normal_str, promt_no_empty
 from car import Car
-
+import csv
 '''
 
 Hacer clase 'Car' con inputs de ['brand', 'model', 'type', 'hp']
@@ -18,6 +18,7 @@ supercharged -> turbo + 10%-20% hp
 '''
 
 def show_current_cars():
+
     current_cars = []
 
     print('Current cars: \n')
@@ -26,12 +27,12 @@ def show_current_cars():
         print(f" -{name.title().replace('_', ' ')}: {dict_cars[name]}") 
         current_cars.append(normal_str(name))
 
-    print()
-    return current_cars
+    print() 
+    return current_cars         #return list of current cars to another functions #DRY
 
 def add_car():
     
-
+    # INPUT CHECKS
     nickname = promt_no_empty('Enter car nickname: ')  
     brand = promt_no_empty('Enter car brand: ')
     model = promt_no_empty('Enter car model: ')
@@ -55,22 +56,51 @@ def add_car():
             continue
         break
 
+
+    # ADD DATA TO THE CSV FILE
+    with open('garaje.txt', 'a', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=['nickname', 'brand', 'model', 'capacity', 'aspiration'])
+        writer.writerow({'nickname': nickname, 'brand': brand, 'model': model, 'capacity': engine_capacity,'aspiration': engine_type})
+
+
+
+    # ADD DATA TO THE DICT
     dict_cars[nickname] = Car(brand, model, engine_type, engine_capacity)                        
 
 
 def delete_car():
 
+    # REMOVE THE DATA FROM THE DICT
     current_cars = show_current_cars()
     print('Select wich one: ')
     while True:
         car = normal_str(input())
         if car not in current_cars:
             print('Car not in the list')
-        else:
-            print('Car has been deleted\n')
-            del dict_cars[car]
-            
-            break
+
+        print('Car has been deleted\n')
+        del dict_cars[car]
+
+
+        # REMOVE THE DATA FROM THE CSV FILE
+        keep_list=[]
+        with open('garaje.txt') as file:
+            rows = csv.DictReader(file)
+            for row in rows:
+                if row['nickname'] != car:
+                    keep_list.append(row)
+        
+        with open('garaje.txt', 'w',newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=['nickname','brand','model','engine_type','engine_capacity'])
+            writer.writeheader()
+            for row in keep_list:
+                writer.writerow(row)
+
+
+        break
+
+
+
 
 
 def modify_engine_type():

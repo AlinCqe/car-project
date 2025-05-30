@@ -1,0 +1,2 @@
+nickname,brand,model,engine_type,engine_capacity
+daily,honda,civic,1.5,turbo
