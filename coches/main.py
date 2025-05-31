@@ -16,6 +16,18 @@ supercharged -> turbo + 10%-20% hp
 
 
 '''
+# Loads car objects when starting program
+def load_csv_garaje():
+    with open('garaje.txt', 'r') as file:
+        reader = csv.DictReader(file)
+        for row in  reader:
+            if row:
+                print(row)
+                row['nickname'] = Car(row['brand'],row['model'],row['engine_type'],row['engine_capacity'])
+                print(row['nickname'])
+
+
+
 
 def show_current_cars():
 
@@ -59,8 +71,8 @@ def add_car():
 
     # ADD DATA TO THE CSV FILE
     with open('garaje.txt', 'a', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=['nickname', 'brand', 'model', 'capacity', 'aspiration'])
-        writer.writerow({'nickname': nickname, 'brand': brand, 'model': model, 'capacity': engine_capacity,'aspiration': engine_type})
+        writer = csv.DictWriter(file, fieldnames=['nickname', 'brand', 'model', 'aspiration','capacity'])
+        writer.writerow({'nickname': nickname, 'brand': brand, 'model': model,'aspiration': engine_type,'capacity': engine_capacity})
 
 
 
@@ -80,6 +92,7 @@ def delete_car():
 
         print('Car has been deleted\n')
         del dict_cars[car]
+
 
 
         # REMOVE THE DATA FROM THE CSV FILE
@@ -133,7 +146,7 @@ engine_types = {'atmospheric', 'turbo', 'supercharged'}
 dict_cars = {}
 
 def main():
-
+    load_csv_garaje()
     while True:
 
         task = normal_str(input('Add car | Show cars | Delete car | Modify engine type: \n'))
