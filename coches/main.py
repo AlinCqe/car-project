@@ -23,7 +23,7 @@ def load_csv_garaje():
         for row in  reader:
             if row:
                 print(row)
-                row['nickname'] = Car(row['brand'],row['model'],row['engine_type'],row['engine_capacity'])
+                row['nickname'] = Car(row['brand'],row['model'],row['aspiration'],row['engine_capacity'])
                 print(row['nickname'])
 
 
@@ -61,9 +61,9 @@ def add_car():
             pass
 
     while True:
-        engine_type = input('Engine tpye (Atmospheric/Turbo/Supercharged): ')
-        if normal_str(engine_type) not in engine_types:
-            engine_type = None
+        aspiration = input('Engine tpye (Atmospheric/Turbo/Supercharged): ')
+        if normal_str(aspiration) not in aspirations:
+            aspiration = None
             print('Not available')
             continue
         break
@@ -72,12 +72,12 @@ def add_car():
     # ADD DATA TO THE CSV FILE
     with open('garaje.txt', 'a', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=['nickname', 'brand', 'model', 'aspiration','capacity'])
-        writer.writerow({'nickname': nickname, 'brand': brand, 'model': model,'aspiration': engine_type,'capacity': engine_capacity})
+        writer.writerow({'nickname': nickname, 'brand': brand, 'model': model,'aspiration': aspiration,'capacity': engine_capacity})
 
 
 
     # ADD DATA TO THE DICT
-    dict_cars[nickname] = Car(brand, model, engine_type, engine_capacity)                        
+    dict_cars[nickname] = Car(brand, model, aspiration, engine_capacity)                        
 
 
 def delete_car():
@@ -104,7 +104,7 @@ def delete_car():
                     keep_list.append(row)
         
         with open('garaje.txt', 'w',newline='') as file:
-            writer = csv.DictWriter(file, fieldnames=['nickname','brand','model','engine_type','engine_capacity'])
+            writer = csv.DictWriter(file, fieldnames=['nickname','brand','model','aspiration','engine_capacity'])
             writer.writeheader()
             for row in keep_list:
                 writer.writerow(row)
@@ -116,7 +116,7 @@ def delete_car():
 
 
 
-def modify_engine_type():
+def modify_aspiration():
         
         current_cars = show_current_cars()
 
@@ -130,26 +130,26 @@ def modify_engine_type():
 
 
         while True:
-            new_engine_type = normal_str(input('New type of engine: '))
-            if not new_engine_type in engine_types:
+            new_aspiration = normal_str(input('New type of engine: '))
+            if not new_aspiration in aspirations:
                 print('Unavailable engine type')
             else:
                 break
 
-        dict_cars[car].engine_modify(new_engine_type)
-        print(f'Engine type was changed to {new_engine_type}\n')
+        dict_cars[car].engine_modify(new_aspiration)
+        print(f'Engine type was changed to {new_aspiration}\n')
 
 
 
-available_tasks = {'add_car', 'show_cars', 'delete_car', 'modify_engine_type'}
-engine_types = {'atmospheric', 'turbo', 'supercharged'}
+available_tasks = {'add_car', 'show_cars', 'delete_car', 'modify_aspiration'}
+aspirations = {'atmospheric', 'turbo', 'supercharged'}
 dict_cars = {}
 
 def main():
     load_csv_garaje()
     while True:
 
-        task = normal_str(input('Add car | Show cars | Delete car | Modify engine type: \n'))
+        task = normal_str(input('Add car | Show cars | Delete car | Modify engine aspiration: \n'))
         if not task in available_tasks:
             print('Not availible')
 
@@ -171,11 +171,11 @@ def main():
             else:
                 delete_car()
                 
-        if task == 'modify_engine_type':
+        if task == 'modify_engine_aspiration':
             if not dict_cars:
                 print('Not available cars')
                 continue
-            modify_engine_type()
+            modify_aspiration()
 
 
     
