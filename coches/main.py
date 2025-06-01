@@ -1,4 +1,4 @@
-from utils import normal_str, promt_no_empty
+from utils import normal_str, promt_no_empty, pretty_str
 from car import Car
 import csv
 '''
@@ -18,29 +18,31 @@ supercharged -> turbo + 10%-20% hp
 '''
 # Loads car objects when starting program
 def load_csv_garaje():
-    with open('garaje.txt', 'r') as file:
+    with open('garaje.csv', 'r') as file:
         reader = csv.DictReader(file)
         for row in  reader:
             if row:
-                print(row)
-                row['nickname'] = Car(row['brand'],row['model'],row['aspiration'],row['engine_capacity'])
-                print(row['nickname'])
+                nickname = row['nickname']
+                dict_cars[nickname] = Car(row['brand'], row['model'], row['aspiration'], row['engine_capacity'])
 
 
 
 
-def show_current_cars():
+
+def show_current_cars():            #NEED TO SEPARATE THE PRINT FUNCTION AND THE RETURN LIST FUNCTION
 
     current_cars = []
 
     print('Current cars: \n')
 
     for name in dict_cars:
-        print(f" -{name.title().replace('_', ' ')}: {dict_cars[name]}") 
+        print(f" -{pretty_str(name)}: {dict_cars[name]}") 
         current_cars.append(normal_str(name))
 
     print() 
     return current_cars         #return list of current cars to another functions #DRY
+
+
 
 def add_car():
     
@@ -70,47 +72,49 @@ def add_car():
 
 
     # ADD DATA TO THE CSV FILE
-    with open('garaje.txt', 'a', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=['nickname', 'brand', 'model', 'aspiration','capacity'])
-        writer.writerow({'nickname': nickname, 'brand': brand, 'model': model,'aspiration': aspiration,'capacity': engine_capacity})
+    with open('garaje.csv', 'a', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=['nickname', 'brand', 'model', 'aspiration','engine_capacity'])
+        writer.writerow({'nickname': nickname, 'brand': brand, 'model': model,'aspiration': aspiration,'engine_capacity': engine_capacity})
 
 
 
     # ADD DATA TO THE DICT
     dict_cars[nickname] = Car(brand, model, aspiration, engine_capacity)                        
 
+    print('Car added successfully')
 
 def delete_car():
 
-    # REMOVE THE DATA FROM THE DICT
+    
     current_cars = show_current_cars()
     print('Select wich one: ')
     while True:
         car = normal_str(input())
         if car not in current_cars:
             print('Car not in the list')
-
-        print('Car has been deleted\n')
-        del dict_cars[car]
-
-
-
-        # REMOVE THE DATA FROM THE CSV FILE
-        keep_list=[]
-        with open('garaje.txt') as file:
-            rows = csv.DictReader(file)
-            for row in rows:
-                if row['nickname'] != car:
-                    keep_list.append(row)
-        
-        with open('garaje.txt', 'w',newline='') as file:
-            writer = csv.DictWriter(file, fieldnames=['nickname','brand','model','aspiration','engine_capacity'])
-            writer.writeheader()
-            for row in keep_list:
-                writer.writerow(row)
-
-
+            continue
         break
+
+    # REMOVE THE DATA FROM THE DICT
+    
+    del dict_cars[car]
+    
+
+    # REMOVE THE DATA FROM THE CSV FILE
+    keep_list=[]
+    with open('garaje.csv') as file:
+        rows = csv.DictReader(file)
+        for row in rows:
+            if row['nickname'] != car:
+                keep_list.append(row)
+    
+    with open('garaje.csv', 'w',newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=['nickname','brand','model','aspiration','engine_capacity'])
+        writer.writeheader()
+
+        writer.writerows(keep_list)
+
+    print('Car has been deleted\n')
 
 
 
@@ -135,9 +139,29 @@ def modify_aspiration():
                 print('Unavailable engine type')
             else:
                 break
-
+        
+        # Modify data from the dictionary 
         dict_cars[car].engine_modify(new_aspiration)
         print(f'Engine type was changed to {new_aspiration}\n')
+
+        
+        # Modify data in the csv
+        updated_rows =[]
+        with open('garaje.csv') as file:
+            rows = csv.DictReader(file)
+            for row in rows:
+                if row['nickname'] == car:
+                    row['aspiration'] = new_aspiration
+                updated_rows.append(row)
+                
+
+
+        with open('garaje.csv', 'w',newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=['nickname','brand','model','aspiration','engine_capacity'])
+            writer.writeheader()
+            writer.writerows(updated_rows)
+
+
 
 
 
