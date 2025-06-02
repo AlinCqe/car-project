@@ -1,5 +1,5 @@
 from utils import normal_str, promt_no_empty, pretty_str
-from car import Car
+from car import Car, CombustionCar, ElectricCar
 import csv
 '''
 
@@ -19,6 +19,7 @@ supercharged -> turbo + 10%-20% hp
 # Loads car objects when starting program
 '''
 def load_csv_garaje():
+ 
     with open('garaje.csv', 'r') as file:
         reader = csv.DictReader(file)
         for row in  reader:
@@ -37,7 +38,11 @@ def show_current_cars():            #NEED TO SEPARATE THE PRINT FUNCTION AND THE
     print('Current cars: \n')
 
     for name in dict_cars:
-        print(f" -{pretty_str(name)}: {dict_cars[name]}") 
+        print(pretty_str(name))
+        print({dict_cars[name]})
+        print(f" -{pretty_str(name)}: {dict_cars[name]}")
+        
+         
         current_cars.append(normal_str(name))
 
     print() 
@@ -54,11 +59,21 @@ def add_car():
         if type not in {'electric','combustion'}:
             continue
         break
-
     brand = promt_no_empty('Enter car brand: ')
     model = promt_no_empty('Enter car model: ')
+    year = promt_no_empty('Enter car year: ')
+    while True:
+        try:
+            kilometrage = float(promt_no_empty('Enter car kilometrage: '))
+            if kilometrage and kilometrage >= 1:
+                break
+        except ValueError:
+            pass
+
+
 
     if type == 'combustion':
+        
         while True:
             try:
                 engine_capacity = float(input('Engice capacity in cc format: '))
@@ -77,47 +92,59 @@ def add_car():
                 print('Not available')
                 continue
             break
-    
+
+        #appends to the csv file 
+        with open('combustion_garaje.csv', 'a', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=['nickname', 'brand', 'model','year', 'aspiration','engine_capacity','kilometrage'])
+            writer.writerow({'nickname': nickname, 'brand': brand, 'model': model,'year': year,'aspiration': aspiration,'engine_capacity': engine_capacity, 'kilometrage': kilometrage})    
+        #appends to the dict
+        dict_cars[nickname] = CombustionCar(brand, model, year, aspiration, engine_capacity, kilometrage)                        
+
+        print('Car added successfully')
+
     if type == 'electric':
 
         while True:
             try:
-                kw = int(input('Enter car power in KW: '))    
-                
-                if kw and kw >= 1:
+                kilowatts = int(input('Enter car power in KW: '))    
+                if kilowatts and kilowatts >= 1:
                     break
             except ValueError:
                 pass
 
         while True:
             try:
-                range = int(input('Enter car range at full charge in KM: '))
-                if range and range >= 1:
+                range_km = int(input('Enter car range at full charge in KM: '))
+                if range and range_km >= 1:
                     break
             except ValueError:
                 pass
-    
-    while True:
-        try:
-            km = float(promt_no_empty('Enter car KMs: '))
-            if km and km >= 1:
-                break
-        except ValueError:
-            pass
+
+
+        #appends to the csv file 
+        with open('electric_garaje.csv', 'a', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=['nickname', 'brand', 'model','year', 'kilowatts','range_km','kilometrage'])
+            writer.writerow({'nickname': nickname, 'brand': brand, 'model': model,'year': year,'kilowatts': kilowatts,'range_km': range_km, 'kilometrage': kilometrage})    
+        #appends to the dict
+        dict_cars[nickname] = ElectricCar(brand, model, year, kilowatts, range_km, kilometrage)                        
+
+
+
 
 
     # ADD DATA TO THE CSV FILE
+    '''
     with open('garaje.csv', 'a', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=['nickname', 'brand', 'model', 'aspiration','engine_capacity'])
         writer.writerow({'nickname': nickname, 'brand': brand, 'model': model,'aspiration': aspiration,'engine_capacity': engine_capacity})
+'''
 
-
-
+'''
     # ADD DATA TO THE DICT
     dict_cars[nickname] = Car(brand, model, aspiration, engine_capacity)                        
 
     print('Car added successfully')
-
+'''
 def delete_car():
 
     

@@ -1,0 +1,52 @@
+
+hecho
+'''
+anadir capacidad de motor
+hp automaticos dependiendo de motor y aspiracion
+
+que las funciones que ya tenga como cambiar motor y futuras cosas, hagan que los hp se modificen
+
+guardar coches en un csv file
+
+
+posibles cuentas. cada cuenta tiene su garaje separado
+
+crear imagenes con coches, si funciona la ia de dalle claro
+
+
+
+
+hecho
+'''
+dos subclases clases
+combustion - electico
+
+atributos clase padre
+nickname,type,brand,model,year,km
+
+combustion
++engine_capacity, aspiration
+
+electrico
+kilowatts,range
+'''
+
+
+optimizar:
+lista the headrs
+una para combustion una para electric
+
+en inputs ago el mismo check como 4 veces
+ver como cambiarlo con una function en utils
+
+
+
+
+he de hacer el calcular hp del electrico
+
+debug hp calculator on combustion engine
+
+
+modificar funcion de delete car para que function con csv y dicts. ahora no va nada
+
+mover la function de cambiar tipo de aspiracion a metodo de clase combustioncar

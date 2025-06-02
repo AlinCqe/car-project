@@ -7,11 +7,5 @@ def promt_no_empty(text):
         if value:
             return value
 
-def promt_no_empty_ints(text):
-    while True:
-        value = (input(text))
-        if value:
-            return value    
-
 def pretty_str(string):
     return string.title().replace('_', ' ')
