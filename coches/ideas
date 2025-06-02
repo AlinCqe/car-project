@@ -19,7 +19,7 @@ dos subclases clases
 combustion - electico
 
 atributos clase padre
-type,brand,model,year,km
+nickname,type,brand,model,year,km
 
 combustion
 +engine_capacity, aspiration

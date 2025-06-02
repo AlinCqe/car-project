@@ -17,6 +17,7 @@ supercharged -> turbo + 10%-20% hp
 
 '''
 # Loads car objects when starting program
+'''
 def load_csv_garaje():
     with open('garaje.csv', 'r') as file:
         reader = csv.DictReader(file)
@@ -24,7 +25,7 @@ def load_csv_garaje():
             if row:
                 nickname = row['nickname']
                 dict_cars[nickname] = Car(row['brand'], row['model'], row['aspiration'], row['engine_capacity'])
-
+'''
 
 
 
@@ -48,27 +49,61 @@ def add_car():
     
     # INPUT CHECKS
     nickname = promt_no_empty('Enter car nickname: ')  
+    while True:
+        type =  promt_no_empty('Enter car typpe: Electric | Combustion: ')
+        if type not in {'electric','combustion'}:
+            continue
+        break
+
     brand = promt_no_empty('Enter car brand: ')
     model = promt_no_empty('Enter car model: ')
 
+    if type == 'combustion':
+        while True:
+            try:
+                engine_capacity = float(input('Engice capacity in cc format: '))
+                if engine_capacity > 0:
+                    break
+                else:
+                    continue
+
+            except ValueError:
+                pass
+
+        while True:
+            aspiration = input('Engine tpye (Atmospheric/Turbo/Supercharged): ')
+            if normal_str(aspiration) not in aspirations:
+                aspiration = None
+                print('Not available')
+                continue
+            break
+    
+    if type == 'electric':
+
+        while True:
+            try:
+                kw = int(input('Enter car power in KW: '))    
+                
+                if kw and kw >= 1:
+                    break
+            except ValueError:
+                pass
+
+        while True:
+            try:
+                range = int(input('Enter car range at full charge in KM: '))
+                if range and range >= 1:
+                    break
+            except ValueError:
+                pass
+    
     while True:
         try:
-            engine_capacity = float(input('Engice capacity in cc format: '))
-            if engine_capacity > 0:
+            km = float(promt_no_empty('Enter car KMs: '))
+            if km and km >= 1:
                 break
-            else:
-                continue
-
         except ValueError:
             pass
-
-    while True:
-        aspiration = input('Engine tpye (Atmospheric/Turbo/Supercharged): ')
-        if normal_str(aspiration) not in aspirations:
-            aspiration = None
-            print('Not available')
-            continue
-        break
 
 
     # ADD DATA TO THE CSV FILE
@@ -170,7 +205,7 @@ aspirations = {'atmospheric', 'turbo', 'supercharged'}
 dict_cars = {}
 
 def main():
-    load_csv_garaje()
+    #load_csv_garaje()
     while True:
 
         task = normal_str(input('Add car | Show cars | Delete car | Modify engine aspiration: \n'))
