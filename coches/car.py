@@ -18,6 +18,7 @@ def calculate_hp(type, capacity):
 class Car:  
 
     def __init__(self, type, brand, model,year,kilometrage):
+        self.type = type
         self.brand = brand
         self.model = model
         self.year = year
@@ -35,24 +36,27 @@ class ElectricCar(Car):
         super().__init__('electric',brand,model,year,kilometrage)
         self.kilowatts = kilowatts
         self.range_km = range_km
+        self.hp = int(self.kilowatts) * 1.341
 
     def __repr__(self):
-        return (f"{pretty_str(self.brand)} {pretty_str(self.model)} {self.year} - {self.kilowatts} kilowatts with {(self.range_km)}km range and a mileage of {self.kilometrage}KMs")  
+        return (f"{self.year} {pretty_str(self.brand)} {pretty_str(self.model)} - {self.kilowatts} kilowatts ({self.hp} hp) with {(self.range_km)} km range and a current mileage of {self.kilometrage} km")  
 
 class CombustionCar(Car):
 
 
     def __init__(self, brand, model,year,kilometrage,engine_type, engine_capacity):
-        super().__init__('electric',brand, model,year,kilometrage)
+        super().__init__('combustion',brand, model,year,kilometrage)
         self.engine_type = engine_type
         self.engine_capacity = engine_capacity
-        self.hp = 'not available for now'
-        #self.hp = calculate_hp(engine_type, engine_capacity)
+        
+        self.hp = calculate_hp(engine_type, engine_capacity)
 
-
-        def engine_modify(self, new_engine_type):
-            self.engine_type = new_engine_type
-            self.hp = (calculate_hp(new_engine_type, self.engine_capacity))
 
     def __repr__(self):
-        return (f"{pretty_str(self.brand)} {pretty_str(self.model)} {self.year} - {self.engine_capacity}l {pretty_str(self.engine_type)} with a total of {self.hp} and a mileage of {self.kilometrage}")  
+        return (f"{self.year} {pretty_str(self.brand)} {pretty_str(self.model)} - {self.engine_capacity}l {self.engine_type} with a total of {self.hp} hp and a current mileage of {self.kilometrage} km")  
+'''
+    def engine_modify(self, new_engine_type):
+        self.engine_type = new_engine_type
+        self.hp = (calculate_hp(new_engine_type, self.engine_capacity))
+'''
+

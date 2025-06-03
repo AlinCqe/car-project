@@ -29,12 +29,13 @@ combustion
 
 electrico
 kilowatts,range
+debug hp calculator on combustion engine
 '''
 
 
 optimizar:
-lista the headrs
-una para combustion una para electric
+lista the headrs - done 
+una para combustion una para electric - done
 
 en inputs ago el mismo check como 4 veces
 ver como cambiarlo con una function en utils
@@ -42,11 +43,17 @@ ver como cambiarlo con una function en utils
 
 
 
-he de hacer el calcular hp del electrico
-
-debug hp calculator on combustion engine
+he de hacer el calcular hp del electrico  - done
 
 
-modificar funcion de delete car para que function con csv y dicts. ahora no va nada
 
-mover la function de cambiar tipo de aspiracion a metodo de clase combustioncar
+
+modificar funcion de delete car para que function con csv y dicts. ahora no va nada - done
+hacer funcion separada que pida 3 inputs (filename, car_nickname, filednames) - done
+
+anadir filednames para cada tipo para no repetir la mima cosa - done
+
+
+
+
+mover la function de cambiar tipo de aspiracion a metodo de clase combustionCar
