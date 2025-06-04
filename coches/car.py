@@ -41,6 +41,9 @@ class ElectricCar(Car):
     def __repr__(self):
         return (f"{self.year} {pretty_str(self.brand)} {pretty_str(self.model)} - {self.kilowatts} kilowatts ({self.hp} hp) with {(self.range_km)} km range and a current mileage of {self.kilometrage} km")  
 
+
+
+
 class CombustionCar(Car):
 
 
@@ -48,15 +51,17 @@ class CombustionCar(Car):
         super().__init__('combustion',brand, model,year,kilometrage)
         self.engine_type = engine_type
         self.engine_capacity = engine_capacity
-        
         self.hp = calculate_hp(engine_type, engine_capacity)
 
 
     def __repr__(self):
         return (f"{self.year} {pretty_str(self.brand)} {pretty_str(self.model)} - {self.engine_capacity}l {self.engine_type} with a total of {self.hp} hp and a current mileage of {self.kilometrage} km")  
-'''
+    
+
+
+
     def engine_modify(self, new_engine_type):
         self.engine_type = new_engine_type
         self.hp = (calculate_hp(new_engine_type, self.engine_capacity))
-'''
+
 

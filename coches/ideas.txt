@@ -56,4 +56,4 @@ anadir filednames para cada tipo para no repetir la mima cosa - done
 
 
 
-mover la function de cambiar tipo de aspiracion a metodo de clase combustionCar
+mover la function de cambiar tipo de aspiracion a metodo de clase combustionCar - done
