@@ -8,17 +8,16 @@ hp_ratio = {
 }
 
 
-def calculate_hp(type, capacity):
-    percentage = random.randint(hp_ratio[type][0],hp_ratio[type][1])
-
-
+def calculate_hp(aspiration_type, capacity):   
+    # Calculates combustion car hp with aspiration type and capacity    
+    percentage = random.randint(hp_ratio[aspiration_type][0],hp_ratio[aspiration_type][1])
     hp = float(capacity) * float(percentage)
     return f'{hp:.0f}'
 
 class Car:  
 
-    def __init__(self, type, brand, model,year,kilometrage):
-        self.type = type
+    def __init__(self, car_type, brand, model,year,kilometrage):
+        self.car_type = car_type
         self.brand = brand
         self.model = model
         self.year = year
@@ -36,7 +35,7 @@ class ElectricCar(Car):
         super().__init__('electric',brand,model,year,kilometrage)
         self.kilowatts = kilowatts
         self.range_km = range_km
-        self.hp = int(self.kilowatts) * 1.341
+        self.hp = f'{int(self.kilowatts) * 1.341:.0f}'
 
     def __repr__(self):
         return (f"{self.year} {pretty_str(self.brand)} {pretty_str(self.model)} - {self.kilowatts} kilowatts ({self.hp} hp) with {(self.range_km)} km range and a current mileage of {self.kilometrage} km")  
@@ -61,6 +60,7 @@ class CombustionCar(Car):
 
 
     def engine_modify(self, new_engine_type):
+        # Change engine aspiration and recalcultates hp - input checks are done in main.py
         self.engine_type = new_engine_type
         self.hp = (calculate_hp(new_engine_type, self.engine_capacity))
 
