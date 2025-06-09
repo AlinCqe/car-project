@@ -1,4 +1,4 @@
-A simple Object Oriented program to practice working with classes and inheritance.
+A simple Object Oriented program to practice working with classes.
 
 This is not meant to be a functional garage manager, but rather a simulation to demonstrate core OOP concepts.
 
