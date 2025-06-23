@@ -4,10 +4,10 @@ This is not meant to be a functional garage manager, but rather a simulation to 
 
 ## Project Structure
 
-#- cli_project/
+- `cli_project/`
 The terminal-based version of the app where you interact via command-line inputs.
 
-#- api_project/
+- `api_project/`
 The FastAPI-based version exposing a web API for managing cars through HTTP requests.
 
 ### Features
