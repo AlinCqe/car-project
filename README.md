@@ -2,7 +2,13 @@ A simple Object Oriented program to practice working with classes.
 
 This is not meant to be a functional garage manager, but rather a simulation to demonstrate core OOP concepts.
 
+## Project Structure
 
+- #cli_project/
+The terminal-based version of the app where you interact via command-line inputs.
+
+- #api_project/
+The FastAPI-based version exposing a web API for managing cars through HTTP requests.
 
 ### Features
 
