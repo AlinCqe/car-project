@@ -1,2 +1,2 @@
-nickname,brand,model,year,kilometrage,aspiration,engine_capacity
-dodge,peugeot,206,122.0,10.0,turbo,1.2
+nickname,car_type,brand,model,year,kilometrage,aspiration,engine_capacity
+Hondi,combustion,Honda,Civic,2017,132394,turbo,1.5

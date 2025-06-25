@@ -26,7 +26,7 @@ def pretty_str(string):
 
 def delete_row_from_csv(filename, car_nickname, fieldnames):
 
-    # Deletes a row from csv file depending on car_nickname
+    # Deletes a row from csv file using car_nickname
     keep_list=[]
     with open(filename) as file:
         rows = csv.DictReader(file)
@@ -34,7 +34,6 @@ def delete_row_from_csv(filename, car_nickname, fieldnames):
             if row['nickname'] != car_nickname:
                 keep_list.append(row)
     
-
     with open(filename, 'w',newline='') as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
