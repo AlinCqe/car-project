@@ -1,6 +1,6 @@
 A simple Object Oriented program to practice working with classes.
 
-This is not meant to be a functional garage manager, but rather a simulation to demonstrate core OOP concepts.
+This is not meant to be a functional script, but rather a project to practice OOP concepts.
 
 ## Project Structure
 
