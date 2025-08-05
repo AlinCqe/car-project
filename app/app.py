@@ -5,7 +5,7 @@ from typing import Annotated
 
 from core.main import GarageManager
 from .utils import correct_aspiration_type, positive_number_int, greater_than_0_int, greater_than_0_float
-from dB.database import create_tables
+from dB.dB import create_tables
 
 
 class BaseCar(BaseModel):
@@ -44,24 +44,17 @@ class CombustionCar(BaseCar):
 
 
 app = FastAPI()
-# Creates a instance of the garaje and loads the cars from the csv files in to self.garaje
+
 garage_manager = GarageManager()
-garage_manager.load_csv_garaje()
 
 @app.on_event('startup')
 def startup_even():
     create_tables()
 
-# unnecesary endpoint, delete in the future
-@app.get('/showCarsPretty')
-def get_cars_pretty():
-    return garage_manager.show_cars()
-
 
 @app.get('/showCars')
 def get_cars():
     return garage_manager.show_cars()
-
 
 @app.post('/addElectricCar')
 def add_electric_car(car: ElectricCar):
@@ -71,7 +64,6 @@ def add_electric_car(car: ElectricCar):
     except sqlite3.IntegrityError:
         raise HTTPException(status_code=409, detail=f'This is alredy a car in the garage with the nickname: {car.nickname}')
     return({'message': 'Electric car added succesfully'})
-
 
 
 @app.post('/addCombustionCar')
@@ -85,9 +77,6 @@ def add_combustion_car(car: CombustionCar):
     return({'message': 'Combustion car added succesfully'})
 
 
-
-
-
 @app.delete('/deletecar/{car_nickname}')
 def delete_car(car_nickname: str):      
     
@@ -96,29 +85,10 @@ def delete_car(car_nickname: str):
     else:
         raise HTTPException(status_code=404, detail='This car is not in the garage')
 
-    """    car_nicknames = garage_manager.garage.keys()
-    print(car_nicknames)
-
-    if car_nickname not in car_nicknames:
-        raise HTTPException(status_code=404, detail='This car is not in the garage')
-
-    garage_manager.delete_car(car_nickname=car_nickname, current_cars_nicknames=car_nicknames)
-    return({'message': 'Car succesfully deleted'})
-    """
-
-
 
 @app.patch('/modifyengineaspiration/{car_nickname}+{new_aspiration}')
 def modify_engine_aspiration(car_nickname: str, new_aspiration: Annotated[str, AfterValidator(correct_aspiration_type)]):
-    
-    combustion_car_nicknames = [nickname for nickname in garage_manager.garage if garage_manager.garage[nickname].car_type == 'combustion']
 
-    if car_nickname not in combustion_car_nicknames:
-        raise HTTPException(status_code=404, detail='This car is not a combustion car in the garage')
+    return garage_manager.modify_aspiration(car_nickname=car_nickname,new_aspiration=new_aspiration)
     
-    if garage_manager.garage[car_nickname].aspiration == new_aspiration:
-        raise HTTPException(status_code=409, detail='The current aspiration type is the same as new one')
-
-    garage_manager.modify_aspiration(car_nickname=car_nickname, new_aspiration=new_aspiration)
-    return({'message': 'Car engine aspiration changed succesfully'})
 

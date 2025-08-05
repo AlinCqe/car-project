@@ -1,14 +1,6 @@
-A simple Object Oriented program to practice working with classes.
 
-This is not meant to be a functional script, but rather a project to practice OOP concepts.
+This is not meant to be a functional script, but rather a project to practice OOP concepts, crud operations using SQLITE and basics of FASTAPI.
 
-## Project Structure
-
-- `cli_project/`
-The terminal-based version of the app where you interact via command-line inputs.
-
-- `api_project/`
-The FastAPI-based version exposing a web API for managing cars through HTTP requests.
 
 ### Features
 
@@ -27,12 +19,6 @@ Two children Classes:
   - ElectricCar
   - CombustionCar
 
-
 ### Car Behavior
 
 The only method that changes car behavior is modify engine aspiration
-
-
-
-
-Planned improvements include adding more methods like driving, charging the battery...
